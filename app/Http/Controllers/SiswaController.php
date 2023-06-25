@@ -15,7 +15,9 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            "siswa" => Siswa::all()
+        ]);
     }
 
     /**
@@ -47,7 +49,10 @@ class SiswaController extends Controller
      */
     public function show(Siswa $siswa)
     {
-        //
+        return response()->json([
+            "message" => "Berhasil get 1 siswa",
+            "siswa" => $siswa,
+        ]);
     }
 
     /**
@@ -70,7 +75,9 @@ class SiswaController extends Controller
      */
     public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
-        //
+        // $siswa->update([
+
+        // ]);
     }
 
     /**

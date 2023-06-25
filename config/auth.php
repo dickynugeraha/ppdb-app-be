@@ -15,6 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
+        // 'guard' => 'web',
         'passwords' => 'admins',
     ],
 
@@ -40,10 +41,21 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-        // 'web' => [
-        //     'driver' => 'session',
-        //     'provider' => 'users',
-        // ],
+        'siswa' => [
+            'driver' => 'sanctum',
+            // 'driver' => 'token',
+            'provider' => 'siswas',
+        ],
+        'api' => [
+            'driver' => "sanctum",
+            'provider' => "siswas",
+            'hash' => false,
+        ]
+        // 'api' => [
+        //     'driver' => "token",
+        //     'provider' => "siswas",
+        //     'hash' => false,
+        // ]
         //
         // 'user' => [
         //     'driver' => 'session',
@@ -85,10 +97,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-        // 'users' => [
-        //     'drivder' => 'eloquent',
-        //     'model' => App\Models\User::class,
-        // ]
+        'siswas' => [
+            'drivder' => 'eloquent',
+            'model' => App\Models\Siswa::class,
+        ]
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -111,12 +123,12 @@ return [
     */
 
     'passwords' => [
-        // 'users' => [
-        //     'provider' => 'users',
-        //     'table' => 'password_resets',
-        //     'expire' => 60,
-        //     'throttle' => 60,
-        // ],
+        'siswas' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
         'admins' => [
             'provider' => 'admins',
             'table' => 'password_resets',

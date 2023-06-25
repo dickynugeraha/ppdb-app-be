@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->char("nisn", 10)->primary();
+            $table->string("asal_sekolah");
+            $table->string("email");
             $table->string("password");
             $table->string("nama");
             $table->string("alamat");
             $table->string("no_hp_ortu");
-            $table->enum("jenis_kelamin", ["pria, wanita"]);
+            $table->string("jenis_kelamin");
+            $table->string("foto_profil")->nullable();
             $table->string("foto_akte")->nullable();
             $table->string("foto_ijazah")->nullable();
             $table->string("foto_kk")->nullable();

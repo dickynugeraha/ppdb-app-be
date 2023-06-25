@@ -24,32 +24,20 @@ class SubBobotController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\SubBobot  $subBobot
      * @return \Illuminate\Http\Response
      */
-    public function show_by_kategori(String $id)
-    {
-        $sub_bobot = SubBobot::select("id", "bobot", "keterangan", "parameter_id")
-                            ->where("parameter_id", $id)
-                            ->with("paramater")
-                            ->get();
+    // public function show_by_kategori(String $subBobotId)
+    // {
+    //     $sub_bobot = SubBobot::where("parameter_id", $subBobotId)->with("paramater")->get();
 
-        // $sub_bobots = DB::table("sub_bobots")
-        //                     ->join("parameters", "sub_bobots.parameter_id", "=", "parameters.id")
-        //                     ->where("sub_bobots.parameter_id", $id)
-        //                     ->parameter()
-        //                     ->with("sub_bobot")
-        //                     ->get();
-        return response()->json([
-            "data" => $sub_bobot
-        ]);
-        // return response()->json([
-        //     "data" => SubBobot::find($id)->parameter()->with("sub_bobot")->get()
-        // ]);
-    }
+    //     return response()->json([
+    //         "data" => $sub_bobot
+    //     ]);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -59,16 +47,15 @@ class SubBobotController extends Controller
      */
     public function store(StoreSubBobotRequest $request)
     {
-        $subBobotId = Str::uuid()->toString();
+        // $subBobotId = Str::uuid()->toString();
         try {
-            SubBobot::create([
-                "id" => $subBobotId,
+            $bobot = SubBobot::create([
                 "parameter_id" => $request->parameter_id,
                 "keterangan" => $request->keterangan,
                 "bobot" => $request->bobot,
             ]);
             return response()->json([
-                "sub_bobot_id" => $subBobotId,
+                "sub_bobot_id" => $bobot->id,
                 "message" => "Data sub bobot berhasil ditambahkan"
             ]);
         } catch (\Exception $e) {

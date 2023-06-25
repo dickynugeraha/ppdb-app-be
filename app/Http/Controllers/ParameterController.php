@@ -40,15 +40,15 @@ class ParameterController extends Controller
      */
     public function store(StoreParameterRequest $request)
     {
-        $newId = Str::uuid()->toString();
+        // $newId = Str::uuid()->toString();
         try {
-            Parameter::create([
-                "id" => $newId,
+            $newParameter = Parameter::create([
+                // "id" => $newId,
                 "nama" => $request->nama,
                 "sifat" => $request->sifat,
             ]);
             return response()->json([
-                "parameter_id" => $newId,
+                "parameter_id" => $newParameter->id,
                 "message" => "Data kriteria berhasil ditambahkan",
             ]);
         } catch (\Exception $e) {
@@ -64,11 +64,12 @@ class ParameterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show_with_sub_bobot(String $id){
+    public function show_with_sub_bobot(String $id)
+    {
         $sub_bobot = Parameter::select("id", "nama", "sifat", "created_at", "updated_at")
-        ->where("id", $id)
-        ->with("sub_bobot")
-        ->get();
+            ->where("id", $id)
+            ->with("sub_bobot")
+            ->get();
         try {
             return response()->json([
                 "message" => "Data sub bobot berhasil ditampilkan",
@@ -80,8 +81,6 @@ class ParameterController extends Controller
                 "error" => $err->getMessage()
             ], 404);
         }
-
-       
     }
 
     /**

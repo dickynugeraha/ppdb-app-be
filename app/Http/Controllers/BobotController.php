@@ -32,17 +32,16 @@ class BobotController extends Controller
      */
     public function store(StoreBobotRequest $request)
     {
-        $newId = Str::uuid()->toString();
+        // $newId = Str::uuid()->toString();
         try {
-            Bobot::create([
-                "id" => $newId,
+            $bobot = Bobot::create([
+                // "id" => $newId,
                 "parameter_id" => $request->parameter_id,
                 "bobot" => $request->bobot
             ]);
 
-
             return response()->json([
-                "bobot_id" => $newId,
+                "bobot_id" => $bobot->id,
                 "message" => "Data bobot berhasil ditambahkan",
             ]);
         } catch (\Exception $e) {
