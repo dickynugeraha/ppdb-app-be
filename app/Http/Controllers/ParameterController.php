@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parameter;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreParameterRequest;
 use App\Http\Requests\UpdateParameterRequest;
-use Illuminate\Support\Str;
 
 class ParameterController extends Controller
 {
@@ -19,6 +17,17 @@ class ParameterController extends Controller
     {
         return response()->json([
             "data" => Parameter::all()
+        ]);
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index2()
+    {
+        return response()->json([
+            "data" => Parameter::with("sub_bobot")->get()
         ]);
     }
 
@@ -40,10 +49,8 @@ class ParameterController extends Controller
      */
     public function store(StoreParameterRequest $request)
     {
-        // $newId = Str::uuid()->toString();
         try {
             $newParameter = Parameter::create([
-                // "id" => $newId,
                 "nama" => $request->nama,
                 "sifat" => $request->sifat,
             ]);

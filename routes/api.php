@@ -4,6 +4,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BobotController;
 use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\SubBobotController;
 use Illuminate\Support\Facades\Route;
@@ -30,14 +33,24 @@ Route::group(["middleware" => ["cors"]], function () {
 
     Route::group(["middleware" => ["auth:sanctum"]], function () {
         // route admin
+        Route::get("parameter/all", [ParameterController::class, "index2"]);
         Route::apiResource("parameter", ParameterController::class);
         Route::apiResource("bobot", BobotController::class);
         Route::apiResource("sub-bobot", SubBobotController::class);
         Route::get("parameter/{id}/sub-bobot", [ParameterController::class, "show_with_sub_bobot"]);
         Route::post("admin/logout", [AuthController::class, "logoutAdmin"]);
         // route siswa
-        Route::apiResource("siswa", SiswaController::class);
+        Route::get("siswa/", [SiswaController::class, "index"]);
+        Route::post("siswa/{nisn}/update", [SiswaController::class, "update"]);
+        Route::get("siswa/{nisn}", [SiswaController::class, "show"]);
         Route::post("siswa/logout", [AuthController::class, "logoutSiswa"]);
+        Route::get("sekolah", [SekolahController::class, "index"]);
+        Route::post("sekolah/{id}/update", [SekolahController::class, "update"]);
+        Route::post("prestasi/{nisn}/update", [PrestasiController::class, "update"]);
+        Route::get("nilai", [NilaiController::class, "index"]);
+        Route::post("nilai", [NilaiController::class, "store"]);
+        Route::get("nilai/{nisn}", [NilaiController::class, "show"]);
+        Route::get("ranking/export", [NilaiController::class, "createPdfRangking"]);
     });
     Route::apiResource("admin", AdminController::class);
 });

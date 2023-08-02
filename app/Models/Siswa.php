@@ -12,7 +12,9 @@ class Siswa extends Authenticatable
     use HasFactory, HasApiTokens, Notifiable;
 
     protected $primaryKey = 'nisn';
+
     public $incrementing = false;
+
     protected $fillable = [
         "nisn",
         "asal_sekolah",
@@ -29,4 +31,14 @@ class Siswa extends Authenticatable
     ];
 
     protected $hidden = ["password", 'remember_token'];
+
+    public function prestasi()
+    {
+        return $this->hasOne(Prestasi::class, "nisn");
+    }
+
+    public function nilai()
+    {
+        return $this->hasOne(Nilai::class, "nisn");
+    }
 }

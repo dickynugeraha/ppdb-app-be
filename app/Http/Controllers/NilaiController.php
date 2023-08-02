@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Nilai;
 use App\Http\Requests\StoreNilaiRequest;
 use App\Http\Requests\UpdateNilaiRequest;
+use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class NilaiController extends Controller
 {
@@ -15,7 +18,20 @@ class NilaiController extends Controller
      */
     public function index()
     {
-        //
+        $data = DB::select(DB::raw('SELECT * FROM rankings ORDER BY ranking DESC'));
+
+        return response()->json([
+            "data" => $data
+        ]);
+    }
+
+    public function createPdfRangking()
+    {
+        $data = DB::select(DB::raw('SELECT * FROM rankings ORDER BY ranking DESC'));
+
+        $pdf = Pdf::loadView("nilai.ranking", compact("data"));
+
+        return $pdf->download("ranking_seleksi.pdf");
     }
 
     /**
@@ -25,7 +41,6 @@ class NilaiController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -36,7 +51,29 @@ class NilaiController extends Controller
      */
     public function store(StoreNilaiRequest $request)
     {
-        //
+        $nilai = $request->nilai;
+
+        try {
+            $count = 0;
+            foreach ($nilai as $nl) {
+                $input["nisn"] = $request->nisn;
+                $input["parameter_id"] = $nl["kategoriId$count"];
+                $input["nama_parameter"] = $nl["kategoriNama$count"];
+                $input["nilai"] = $nl["nilai$count"];
+
+                $count++;
+
+                Nilai::create($input);
+            }
+
+            return response()->json([
+                "message" => "Data nilai berhasil di tambah"
+            ]);
+        } catch (\Exception $e) {
+            response()->json([
+                "error" => ["message" => $e]
+            ]);
+        }
     }
 
     /**
@@ -45,9 +82,19 @@ class NilaiController extends Controller
      * @param  \App\Models\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
-    public function show(Nilai $nilai)
+    public function show($nisn)
     {
-        //
+        try {
+            $nilai = Nilai::where("nisn", "=", $nisn)->with("parameter")->get();
+
+            return response()->json([
+                "nilai" => $nilai
+            ]);
+        } catch (\Exception $e) {
+            response()->json([
+                "error" => ["message" => $e]
+            ]);
+        }
     }
 
     /**

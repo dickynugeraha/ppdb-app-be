@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nilais', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+        Schema::create('prestasis', function (Blueprint $table) {
+            $table->uuid("id")->primary();
             $table->char("nisn", 10);
-            $table->string("parameter_id");
-            $table->string("nama_parameter");
-            $table->foreign("parameter_id")->references("id")->on("parameters")->onDelete("cascade");
-            $table->float("nilai");
+            $table->string("nilai_semester");
+            $table->string("nilai_uas");
+            $table->string("nilai_un");
+            $table->string("prestasi_akademik");
+            $table->string("prestasi_non_akademik");
+            $table->foreign("nisn")->references("nisn")->on("siswas")->onDelete("cascade");
             $table->timestamps();
         });
     }
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilai');
+        Schema::dropIfExists('prestasis');
     }
 };
