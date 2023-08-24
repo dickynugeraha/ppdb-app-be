@@ -128,10 +128,10 @@ class SekolahController extends Controller
      * @param  \App\Models\Sekolah  $sekolah
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, String $id)
+    public function update(Request $request)
     {
         try {
-            $sekolah = Sekolah::find($id)->first();
+            $sekolah = Sekolah::all()->first();
 
             $sekolah->nama = $request->nama;
             $sekolah->deskripsi = $request->deskripsi;

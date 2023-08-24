@@ -26,10 +26,8 @@ Route::group(["middleware" => ["cors"]], function () {
     Route::post('admin/login', [AuthController::class, 'loginAdmin']);
     Route::post("siswa/login", [AuthController::class, "loginSiswa"]);
     Route::post("siswa/register", [AuthController::class, "registerSiswa"]);
+    Route::get("sekolah", [SekolahController::class, "index"]);
 
-    Route::group(["middleware" => ["auth:siswa"]], function () {
-        // manipulate data siswa
-    });
 
     Route::group(["middleware" => ["auth:sanctum"]], function () {
         // route admin
@@ -44,13 +42,11 @@ Route::group(["middleware" => ["cors"]], function () {
         Route::post("siswa/{nisn}/update", [SiswaController::class, "update"]);
         Route::get("siswa/{nisn}", [SiswaController::class, "show"]);
         Route::post("siswa/logout", [AuthController::class, "logoutSiswa"]);
-        Route::get("sekolah", [SekolahController::class, "index"]);
-        Route::post("sekolah/{id}/update", [SekolahController::class, "update"]);
+        Route::post("sekolah/update", [SekolahController::class, "update"]);
         Route::post("prestasi/{nisn}/update", [PrestasiController::class, "update"]);
         Route::get("nilai", [NilaiController::class, "index"]);
         Route::post("nilai", [NilaiController::class, "store"]);
         Route::get("nilai/{nisn}", [NilaiController::class, "show"]);
         Route::get("ranking/export", [NilaiController::class, "createPdfRangking"]);
     });
-    Route::apiResource("admin", AdminController::class);
 });

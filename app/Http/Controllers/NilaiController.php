@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Nilai;
 use App\Http\Requests\StoreNilaiRequest;
 use App\Http\Requests\UpdateNilaiRequest;
+use App\Models\SubBobot;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -59,15 +60,19 @@ class NilaiController extends Controller
                 $input["nisn"] = $request->nisn;
                 $input["parameter_id"] = $nl["kategoriId$count"];
                 $input["nama_parameter"] = $nl["kategoriNama$count"];
-                $input["nilai"] = $nl["nilai$count"];
+                $subBobot = SubBobot::where("id", "=", $nl["subBobotId$count"])->first();
+                $input["nilai"] = $subBobot->bobot;
 
-                $count++;
+                // $input["nilai"] = $nl["nilai$count"];
 
                 Nilai::create($input);
+
+                $count++;
             }
 
             return response()->json([
                 "message" => "Data nilai berhasil di tambah"
+                // "message" => $subBobot
             ]);
         } catch (\Exception $e) {
             response()->json([

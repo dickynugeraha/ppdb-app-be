@@ -7,6 +7,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
 
 class AdminSeeder extends Seeder
 {
@@ -18,7 +20,8 @@ class AdminSeeder extends Seeder
     public function run()
     {
         DB::table('admins')->insert([
-            'username' => "sman6",
+            'id' => Str::uuid(),
+            'username' => "HashAdmin",
             'password' => Hash::make('123'),
         ]);
     }

@@ -104,6 +104,7 @@ class SiswaController extends Controller
             $siswa->nama = $request->nama;
             $siswa->alamat = $request->alamat;
             $siswa->email = $request->email;
+            $siswa->no_hp_ortu = $request->no_hp_ortu;
             $siswa->asal_sekolah = $request->asal_sekolah;
             $siswa->jenis_kelamin = $request->jenis_kelamin;
 
